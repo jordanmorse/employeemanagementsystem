@@ -28,7 +28,7 @@ function startProgram() {
                 addEmployee()
                 break
             case "View Employees":
-                viewEmployee("employee")
+                viewEmployee()
                 break
             case "Delete Employee":
                 deleteEmp()
@@ -152,8 +152,8 @@ function addRole() {
     })
 }
 
-function viewEmployee(tableName) {
-    connection.query(`SELECT * FROM ${tableName}`, (err, res) => {
+function viewEmployee() {
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN roles on employee.role_id = roles.id LEFT JOIN department on roles.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;", (err, res) => {
         if (err) throw (err);
         console.table(res);
         startProgram()
