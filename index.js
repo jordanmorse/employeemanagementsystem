@@ -151,7 +151,8 @@ function addRole() {
 
             .then(answer => {
                 connection.query(`INSERT INTO roles (title, salary, department_id)
-            VALUES(${answer.title}, ${answer.salary}, ${answer.department_id}`)
+            VALUES("${answer.addRole}", "${answer.addSalary}", "${answer.deptID}");`
+            )
             startProgram();
             })
             
