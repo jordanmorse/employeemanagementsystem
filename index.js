@@ -92,7 +92,6 @@ function addEmployee() {
                 message: "Who is your employee's manager?",
                 choices: employeeManagers
             }]).then(answer => {
-                console.log(answer)
                 connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES("${answer.firstName}", "${answer.lastName}", "${answer.whatRole}", "${answer.whatManager}");`
                 )
                 startProgram();
