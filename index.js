@@ -4,6 +4,8 @@ const inquirer = require("inquirer")
 const { type } = require("os")
 const connection = require("./server.js")
 
+
+//function to start the program, utilizes a switch case to run the function which would then allow the user to do whichever item is selected
 function startProgram() {
     inquirer.prompt([{
         name: "start",
@@ -53,6 +55,7 @@ function startProgram() {
 
 startProgram();
 
+//function to create a new employee allowing user to select a manager (with inquirer) as well and pushing the new info into the seed sql database
 function addEmployee() {
     const employeeRoles = [];
     connection.query("Select * from roles", function (err, res) {
@@ -98,6 +101,8 @@ function addEmployee() {
     })
 }
 
+
+//function to add a new department which then inserts directly into sql database
 function addDepartment() {
     const departments = [];
     connection.query("Select * from department", function (err, res) {
@@ -121,6 +126,8 @@ function addDepartment() {
     })
 }
 
+
+//function to add a new role including input for role name, salary and department id, which then inserts into the sql database
 function addRole() {
     const roles = [];
     connection.query("Select * from roles", function (err, res) {
@@ -152,6 +159,7 @@ function addRole() {
     })
 }
 
+//function to view all employees/their info using an sql join
 function viewEmployee() {
     connection.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN roles on employee.role_id = roles.id LEFT JOIN department on roles.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;", (err, res) => {
         if (err) throw (err);
@@ -160,6 +168,7 @@ function viewEmployee() {
     })
 };
 
+//function to view all departments
 function viewDepartment(tableName) {
     connection.query(`SELECT * FROM ${tableName}`, (err, res) => {
         if (err) throw (err);
@@ -168,6 +177,8 @@ function viewDepartment(tableName) {
     })
 };
 
+
+//function to view all roles
 function viewRoles(tableName) {
     connection.query(`SELECT * FROM ${tableName}`, (err, res) => {
         if (err) throw (err);
@@ -176,6 +187,7 @@ function viewRoles(tableName) {
     })
 };
 
+//function to delete a specific employee from the list of previously added employees and then update the sql database accordingly
 function deleteEmp() {
     let employees = [];
     connection.query("Select * from employee", function (err, res) {
@@ -202,7 +214,7 @@ function deleteEmp() {
 }
 
 
-
+//function to update the role of a given employee looping through the role options to assign as necessary then updating the sql database
 function updateEmployee() {
     let employees = [];
     connection.query("Select * from employee", function (err, res) {
